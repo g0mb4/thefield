@@ -26,7 +26,7 @@ void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
 
 float	modelindex_eyes, modelindex_player;
-
+float	doublejump_ctr;
 /*
 =============================================================================
 
@@ -558,6 +558,8 @@ void() PutClientInServer =
 	}
 
 	spawn_tdeath (self.origin, self);
+
+	doublejump_ctr = 2;
 };
 
 
@@ -758,10 +760,13 @@ void() PlayerJump =
 		return;
 	}
 
-	if (!(self.flags & FL_ONGROUND))
+	if (!(self.flags & FL_ONGROUND) && doublejump_ctr <= 0)
 		return;
 
-	if ( !(self.flags & FL_JUMPRELEASED) )
+	if (self.flags & FL_ONGROUND)
+		doublejump_ctr = 2;
+
+	if (!(self.flags & FL_JUMPRELEASED))
 		return;		// don't pogo stick
 
 	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
@@ -769,9 +774,15 @@ void() PlayerJump =
 	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
 
 	self.button2 = 0;
-	// player jumping sound
-	sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
-	self.velocity_z = self.velocity_z + 270;
+
+	// TODO(gmb): Fix velocity of 2nd jump.
+	if (doublejump_ctr > 0)
+	{
+		// player jumping sound
+		sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
+		self.velocity_z = self.velocity_z + 270;
+		doublejump_ctr = doublejump_ctr - 1;
+	}
 };
 
 
@@ -1153,6 +1164,10 @@ void() PlayerPostThink =
 		self.jump_flag = self.velocity_z;
 
 	CheckPowerups ();
+
+	// TODO(gmb): Remove this?
+	if (time < 5)
+		centerprint(self, "The Field\n");
 };
 
 
