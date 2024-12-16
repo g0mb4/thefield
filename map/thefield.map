@@ -16,12 +16,12 @@
 }
 // brush 1
 {
-( -16 -16 0 ) ( -16 -15 0 ) ( -16 -16 1 ) black 0 0 0 1 1
-( -16 -16 0 ) ( -16 -16 1 ) ( -15 -16 0 ) black 0 0 0 1 1
-( -16 -16 0 ) ( -15 -16 0 ) ( -16 -15 0 ) black 0 0 0 1 1
-( 16 16 80 ) ( 16 17 80 ) ( 17 16 80 ) black 0 0 0 1 1
-( 16 16 16 ) ( 17 16 16 ) ( 16 16 17 ) black 0 0 0 1 1
-( 16 16 16 ) ( 16 16 17 ) ( 16 17 16 ) black 0 0 0 1 1
+( -16 -16 0 ) ( -16 -15 0 ) ( -16 -16 1 ) wall14_5 0 0 0 1 1
+( -16 -16 0 ) ( -16 -16 1 ) ( -15 -16 0 ) wall14_5 0 0 0 1 1
+( -16 -16 0 ) ( -15 -16 0 ) ( -16 -15 0 ) wall14_5 0 0 0 1 1
+( 16 16 80 ) ( 16 17 80 ) ( 17 16 80 ) wall14_5 0 0 0 1 1
+( 16 16 16 ) ( 17 16 16 ) ( 16 16 17 ) wall14_5 0 0 0 1 1
+( 16 16 16 ) ( 16 16 17 ) ( 16 17 16 ) wall14_5 0 0 0 1 1
 }
 // brush 2
 {
@@ -88,4 +88,19 @@
 {
 "classname" "light_torch_small_walltorch"
 "origin" "0 -20 44"
+}
+// entity 3
+{
+"classname" "light_torch_small_walltorch"
+"origin" "-20 0 44"
+}
+// entity 4
+{
+"classname" "light_torch_small_walltorch"
+"origin" "18 0 44"
+}
+// entity 5
+{
+"classname" "light_torch_small_walltorch"
+"origin" "0 20 44"
 }

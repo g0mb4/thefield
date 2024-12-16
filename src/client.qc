@@ -75,7 +75,7 @@ void() SetChangeParms =
 	if (self.ammo_shells < 25)
 		parm4 = 25;
 	else
-		parm4 = self.ammo_shells;
+	parm4 = self.ammo_shells;
 	parm5 = self.ammo_nails;
 	parm6 = self.ammo_rockets;
 	parm7 = self.ammo_cells;
@@ -784,9 +784,20 @@ void() PlayerJump =
 	// TODO(gmb): Fix velocity of 2nd jump.
 	if (tfld_doublejump_ctr > 0)
 	{
+		// from ground
+		if (tfld_doublejump_ctr == 2)
+			self.velocity_z = self.velocity_z + 270;
+		// from air
+		else {
+			makevectors(self.angles);
+			self.velocity_x = v_forward_x * 270;
+			self.velocity_y = v_forward_y * 270;
+			self.velocity_z = self.velocity_z + 270;
+		}
+
 		// player jumping sound
 		sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
-		self.velocity_z = self.velocity_z + 270;
+
 		tfld_doublejump_ctr = tfld_doublejump_ctr - 1;
 	}
 };
