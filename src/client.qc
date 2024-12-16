@@ -776,9 +776,7 @@ void() PlayerJump =
 		return;		// don't pogo stick
 
 	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
-
 	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
-
 	self.button2 = 0;
 
 	// TODO(gmb): Fix velocity of 2nd jump.

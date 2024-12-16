@@ -30,12 +30,11 @@ void() tfld_precache =
 	precache_sound ("dog/dpain1.wav");
 	precache_sound ("dog/dsight.wav");
 	precache_sound ("dog/idle.wav");
-
 };
 
 void() tfld_init =
 {
-	tfld_doublejump_ctr = 2;
+	tfld_doublejump_ctr = 2;	// client.qc
 	tfld_player.items = IT_SUPER_SHOTGUN | IT_AXE;
 	tfld_player.weapon = IT_SUPER_SHOTGUN;
 	tfld_player.ammo_shells = 25;
@@ -83,21 +82,8 @@ void(entity e, float z) tfld_random_position =
 	spawn_range = 300;
 	new_pos_z = z;
 
-	if (random () < 0.5)
-		spawn_side = -1.0;
-	else
-		spawn_side = 1.0;
-
-	new_pos_x = (random () * spawn_range + spawn_min) * spawn_side;
-	
-	if (random () < 0.5)
-		spawn_side = -1.0;
-	else
-		spawn_side = 1.0;
-
-	new_pos_y = (random () * spawn_range + spawn_min) * spawn_side;
-	
-	while (vlen (tfld_player.origin - new_pos) <= 100) {
+	do
+	{
 		if (random () < 0.5)
 			spawn_side = -1.0;
 		else
@@ -112,7 +98,8 @@ void(entity e, float z) tfld_random_position =
 
 		new_pos_y = (random () * spawn_range + spawn_min) * spawn_side;
 	}
-
+	while (vlen (tfld_player.origin - new_pos) <= 100);
+	
 	e.origin = new_pos;
 };
 
@@ -131,14 +118,13 @@ void() tfld_spwan_dog =
 	dog.view_ofs = '0 0 25';
 	dog.solid = SOLID_SLIDEBOX;
 	dog.movetype = MOVETYPE_STEP;
-	dog.flags = FL_MONSTER;
+	dog.flags = dog.flags | FL_MONSTER;
 	dog.takedamage = DAMAGE_AIM;
 	setmodel (dog, "progs/dog.mdl");
 
 	setsize (dog, '-32 -32 -24', '32 32 40');
 	dog.health = 25;
 
-	dog.use = monster_use;
 	dog.th_stand = dog_stand1;
 	dog.th_walk = dog_walk1;
 	dog.th_run = dog_run1;
@@ -147,7 +133,7 @@ void() tfld_spwan_dog =
 	dog.th_melee = dog_atta1;
 	dog.th_missile = dog_leap1;
 
-	dog.goalentity = dog.movetarget = dog.enemy = tfld_player;
+	dog.enemy = tfld_player;
 	dog.think = FoundTarget;
 	dog.nextthink = time + 0.1;
 
