@@ -26,7 +26,12 @@ void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
 
 float	modelindex_eyes, modelindex_player;
-float	doublejump_ctr;
+
+float	tfld_doublejump_ctr;
+entity	tfld_player;
+
+void()	tfld_init;
+void()	tfld_update;
 /*
 =============================================================================
 
@@ -559,7 +564,8 @@ void() PutClientInServer =
 
 	spawn_tdeath (self.origin, self);
 
-	doublejump_ctr = 2;
+	tfld_player = self;
+	tfld_init ();
 };
 
 
@@ -760,11 +766,11 @@ void() PlayerJump =
 		return;
 	}
 
-	if (!(self.flags & FL_ONGROUND) && doublejump_ctr <= 0)
+	if (!(self.flags & FL_ONGROUND) && tfld_doublejump_ctr <= 0)
 		return;
 
 	if (self.flags & FL_ONGROUND)
-		doublejump_ctr = 2;
+		tfld_doublejump_ctr = 2;
 
 	if (!(self.flags & FL_JUMPRELEASED))
 		return;		// don't pogo stick
@@ -776,12 +782,12 @@ void() PlayerJump =
 	self.button2 = 0;
 
 	// TODO(gmb): Fix velocity of 2nd jump.
-	if (doublejump_ctr > 0)
+	if (tfld_doublejump_ctr > 0)
 	{
 		// player jumping sound
 		sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
 		self.velocity_z = self.velocity_z + 270;
-		doublejump_ctr = doublejump_ctr - 1;
+		tfld_doublejump_ctr = tfld_doublejump_ctr - 1;
 	}
 };
 
@@ -1165,9 +1171,7 @@ void() PlayerPostThink =
 
 	CheckPowerups ();
 
-	// TODO(gmb): Remove this?
-	if (time < 5)
-		centerprint(self, "The Field\n");
+	tfld_update ();
 };
 
 
