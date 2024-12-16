@@ -8,15 +8,20 @@
 entity	tfld_player;
 float tfld_wave_ctr;
 
+float TFLD_E_NONE	= 0;
+float TFLD_E_DOG	= 1;
+
 // prototypes
 void() tfld_precache;
 void() tfld_init;
 void() tfld_update;
+
 void() tfld_spwan_dog;
 void(entity e, float z) tfld_random_position;
-void(entity e) tfld_walkmonster_start;
+void(float type, float num) tfld_spawn_enemies;
 
-void() tfld_precache = {
+void() tfld_precache =
+{
 	// dog
 	precache_model ("progs/h_dog.mdl");
 	precache_model ("progs/dog.mdl");
@@ -48,43 +53,92 @@ void() tfld_update =
 		centerprint(tfld_player, "You are on The Field. Fight!\n");
 
 	if (time > 3 && tfld_wave_ctr == 0) {
-		tfld_spwan_dog ();
+		tfld_spawn_enemies (TFLD_E_DOG, 4);
 		tfld_wave_ctr = tfld_wave_ctr + 1;
-
-		dprint ("Wave ");
-		dprint (ftos(tfld_wave_ctr));
-		dprint (" started\n");
 	}
 
 };
 
-void(entity e, float z) tfld_random_position = {
-	// TODO(gmb): Use random position.
-	e.origin_x = 100;
-	e.origin_y = 0;
-	e.origin_z = z;
+void(float type, float num) tfld_spawn_enemies =
+{
+	local float n;
+
+	n = 0;
+
+	while (n < num)
+	{
+		if (type == TFLD_E_DOG)
+			tfld_spwan_dog ();
+
+		n = n + 1;
+	}
 };
 
-void(entity e) tfld_walkmonster_start = {
-	e.nextthink = e.nextthink + 1;
-	e.think = walkmonster_start_go;
+void(entity e, float z) tfld_random_position =
+{
+	local float spawn_min, spawn_range, spawn_side;
+	local vector new_pos;
 
-	total_monsters = total_monsters + 1;
+	spawn_min = 100;	// avoid center column
+	spawn_range = 300;
+	new_pos_z = z;
+
+	if (random () < 0.5)
+		spawn_side = -1.0;
+	else
+		spawn_side = 1.0;
+
+	new_pos_x = (random () * spawn_range + spawn_min) * spawn_side;
+	
+	if (random () < 0.5)
+		spawn_side = -1.0;
+	else
+		spawn_side = 1.0;
+
+	new_pos_y = (random () * spawn_range + spawn_min) * spawn_side;
+	
+	while (vlen (tfld_player.origin - new_pos) <= 100) {
+		if (random () < 0.5)
+			spawn_side = -1.0;
+		else
+			spawn_side = 1.0;
+
+		new_pos_x = (random () * spawn_range + spawn_min) * spawn_side;
+	
+		if (random () < 0.5)
+			spawn_side = -1.0;
+		else
+			spawn_side = 1.0;
+
+		new_pos_y = (random () * spawn_range + spawn_min) * spawn_side;
+	}
+
+	e.origin = new_pos;
 };
 
-void() tfld_spwan_dog = {
+void() tfld_spwan_dog =
+{
 	local entity dog;
 
-	dog = spawn();
+	dog = spawn ();
 
+	dog.classname = "monster_dog";
+	tfld_random_position (dog, 30);
+
+	self.flags = self.flags | FL_MONSTER;
+	dog.angles = vectoangles (tfld_player.origin - dog.origin);
+	dog.ideal_yaw = vectoyaw (tfld_player.origin - dog.origin);
+	dog.view_ofs = '0 0 25';
 	dog.solid = SOLID_SLIDEBOX;
 	dog.movetype = MOVETYPE_STEP;
-
+	dog.flags = FL_MONSTER;
+	dog.takedamage = DAMAGE_AIM;
 	setmodel (dog, "progs/dog.mdl");
 
 	setsize (dog, '-32 -32 -24', '32 32 40');
 	dog.health = 25;
 
+	dog.use = monster_use;
 	dog.th_stand = dog_stand1;
 	dog.th_walk = dog_walk1;
 	dog.th_run = dog_run1;
@@ -93,9 +147,9 @@ void() tfld_spwan_dog = {
 	dog.th_melee = dog_atta1;
 	dog.th_missile = dog_leap1;
 
-	// TODO(gmb): Make the dog angry
-	dog.enemy = tfld_player;
+	dog.goalentity = dog.movetarget = dog.enemy = tfld_player;
+	dog.think = FoundTarget;
+	dog.nextthink = time + 0.1;
 
-	tfld_random_position (dog, 20);
-	tfld_walkmonster_start (dog);
+	total_monsters = total_monsters + 1;
 };
