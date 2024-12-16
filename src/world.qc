@@ -18,6 +18,7 @@
 */
 
 void() InitBodyQue;
+void() tfld_precache;
 
 
 void() main =
@@ -346,6 +347,8 @@ void() worldspawn =
 
 	// 63 testing
 	lightstyle(63, "a");
+
+	tfld_precache ();
 };
 
 void() StartFrame =
