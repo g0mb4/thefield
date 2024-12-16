@@ -7,4 +7,5 @@ progs.dat: $(SRC)
 
 clean:
 	rm -rf progs.dat
+	rm -rf files.dat
 	rm -rf progdefs.h

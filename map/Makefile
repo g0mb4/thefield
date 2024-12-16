@@ -1,0 +1,25 @@
+QBSP := qbsp
+QBSPFALGS :=
+LIGHT := light
+LIGHTFLAGS :=
+VIS := vis
+VISFLAGS :=
+
+SRC := $(wildcard *.map)
+BSPS := $(SRC:.map=.bsp)
+
+.PHONY: all clean
+
+all: $(BSPS)
+
+%.bsp: %.map
+	$(QBSP) $(QBSPFLAGS) $< $@
+	$(LIGHT) $(LIGHTFLAGS) $@
+	$(VIS) $(VISFLAGS) $@
+
+clean:
+	rm -rf *.bsp
+	rm -rf *.h1
+	rm -rf *.h2
+	rm -rf *.prt
+	rm -rf *.pts

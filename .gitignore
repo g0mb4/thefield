@@ -1,3 +1,17 @@
+id1/
+thefield/
+
 src/progs.dat
+src/files.dat
 src/progdefs.h
+
+map/autosave
+map/*.bsp
+map/*.h1
+map/*.h2
+map/*.prt
+map/*.pts
+
+wad/q.zip
+wad/Q.wad
 
