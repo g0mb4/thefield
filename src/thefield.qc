@@ -34,6 +34,8 @@ void() tfld_precache =
 
 void() tfld_init =
 {
+	cvar_set("skill", "2");	// start on hard
+
 	tfld_doublejump_ctr = 2;	// client.qc
 	tfld_player.items = IT_SUPER_SHOTGUN | IT_AXE;
 	tfld_player.weapon = IT_SUPER_SHOTGUN;
@@ -43,19 +45,21 @@ void() tfld_init =
 	tfld_player.weaponframe = 0;
 	tfld_player.items = self.items | IT_SHELLS;
 
+	// Fix PR_ExecuteProgram: NULL function
+	tfld_player.think = SUB_Null;
+
 	tfld_wave_ctr = 0;
 };
 
 void() tfld_update =
 {
-	if (time < 3)
+	if (time < 1)
 		centerprint(tfld_player, "You are on The Field. Fight!\n");
 
 	if (time > 3 && tfld_wave_ctr == 0) {
 		tfld_spawn_enemies (TFLD_E_DOG, 4);
 		tfld_wave_ctr = tfld_wave_ctr + 1;
 	}
-
 };
 
 void(float type, float num) tfld_spawn_enemies =
@@ -124,7 +128,7 @@ void() tfld_spwan_dog =
 	dog.view_ofs = '0 0 25';
 	dog.solid = SOLID_SLIDEBOX;
 	dog.movetype = MOVETYPE_STEP;
-	dog.flags = dog.flags | FL_MONSTER;
+	dog.flags = dog.flags | FL_MONSTER | FL_ONGROUND;
 	dog.takedamage = DAMAGE_AIM;
 	setmodel (dog, "progs/dog.mdl");
 
@@ -142,6 +146,10 @@ void() tfld_spwan_dog =
 	dog.enemy = tfld_player;
 	dog.think = FoundTarget;
 	dog.nextthink = time + 0.1;
+
+	spawn_tfog (dog.origin);
+	spawn_tdeath (dog.origin, dog);
+	dog.teleport_time = time + 1;
 
 	total_monsters = total_monsters + 1;
 };
