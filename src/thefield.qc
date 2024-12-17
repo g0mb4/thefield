@@ -73,6 +73,10 @@ void() tfld_init =
 
 void() tfld_update =
 {
+	if (tfld_player.origin_z < -16) {
+		tfld_player.health = -1;
+	}
+
 	if (time < 1)
 		centerprint(tfld_player, "You are on The Field. Fight!\n");
 
