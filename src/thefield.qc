@@ -58,6 +58,11 @@ void() tfld_init =
 	tfld_player.weaponframe = 0;
 	tfld_player.items = self.items | IT_SHELLS;
 
+	tfld_player.health = 200;
+	tfld_player.armorvalue = 200;
+	tfld_player.armortype = 0.8;	// ??
+	tfld_player.items = self.items | IT_ARMOR3;
+
 	// Fix PR_ExecuteProgram: NULL function
 	tfld_player.think = SUB_Null;
 
