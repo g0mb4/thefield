@@ -50,14 +50,15 @@ void() tfld_init =
 	cvar_set("skill", "2");	// start on hard
 
 	tfld_doublejump_ctr = 2;	// client.qc
-	tfld_player.items =  IT_AXE | IT_SUPER_SHOTGUN | IT_ROCKET_LAUNCHER;
+	tfld_player.items =  IT_AXE | IT_SUPER_SHOTGUN | IT_SUPER_NAILGUN | IT_ROCKET_LAUNCHER;
 	tfld_player.weapon = IT_SUPER_SHOTGUN;
 	tfld_player.ammo_shells = 666;
+	tfld_player.ammo_nails = 666;
 	tfld_player.ammo_rockets = 666;
 	tfld_player.currentammo = self.ammo_shells;
 	tfld_player.weaponmodel = "progs/v_shot2.mdl";
 	tfld_player.weaponframe = 0;
-	tfld_player.items = self.items | IT_SHELLS | IT_ROCKETS;
+	tfld_player.items = self.items | IT_SHELLS | IT_ROCKETS | IT_NAILS;
 
 	tfld_player.health = 200;
 	tfld_player.armorvalue = 200;
