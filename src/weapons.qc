@@ -385,7 +385,7 @@ void() W_FireRocket =
 {
 	local entity missile;
 
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+	// self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
