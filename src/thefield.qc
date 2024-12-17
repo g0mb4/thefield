@@ -76,11 +76,15 @@ void(float type, float num) tfld_spawn_enemies =
 void(entity e, float z) tfld_random_position =
 {
 	local float spawn_min, spawn_range, spawn_side;
-	local vector new_pos;
+	local vector new_origin, player_origin;
 
 	spawn_min = 100;	// avoid center column
 	spawn_range = 300;
-	new_pos_z = z;
+
+	// only check for ther XY plane
+	new_origin_z = 0;
+	player_origin = tfld_player.origin;
+	player_origin_z = 0;
 
 	do
 	{
@@ -89,18 +93,20 @@ void(entity e, float z) tfld_random_position =
 		else
 			spawn_side = 1.0;
 
-		new_pos_x = (random () * spawn_range + spawn_min) * spawn_side;
+		new_origin_x = (random () * spawn_range + spawn_min) * spawn_side;
 	
 		if (random () < 0.5)
 			spawn_side = -1.0;
 		else
 			spawn_side = 1.0;
 
-		new_pos_y = (random () * spawn_range + spawn_min) * spawn_side;
+		new_origin_y = (random () * spawn_range + spawn_min) * spawn_side;
 	}
-	while (vlen (tfld_player.origin - new_pos) <= 100);
-	
-	e.origin = new_pos;
+	while (vlen (player_origin - new_origin) <= 100);
+
+	new_origin_z = z;
+
+	setorigin(e, new_origin);
 };
 
 void() tfld_spwan_dog =

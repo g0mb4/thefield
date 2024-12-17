@@ -522,7 +522,7 @@ void(string gibname, float dm) ThrowGib =
 	new.avelocity_z = random()*600;
 	new.think = SUB_Remove;
 	new.ltime = time;
-	new.nextthink = time + 10 + random()*10;
+	new.nextthink = time + 2 + random()*2;
 	new.frame = 0;
 	new.flags = 0;
 };
