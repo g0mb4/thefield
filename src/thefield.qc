@@ -5,7 +5,7 @@
  */
 
 // globals
-entity	tfld_player;
+entity tfld_player;
 float tfld_wave_ctr;
 
 float TFLD_E_NONE	= 0;
@@ -153,12 +153,8 @@ void(entity e) tfld_enemy_setup =
 	e.view_ofs = '0 0 25';
 	e.solid = SOLID_SLIDEBOX;
 	e.movetype = MOVETYPE_STEP;
-	e.flags = e.flags | FL_MONSTER | FL_ONGROUND;
-	e.takedamage = DAMAGE_AIM;
 
-	e.enemy = tfld_player;
-	e.think = FoundTarget;
-	e.nextthink = time + 0.1;
+	e.target = "player";
 
 	spawn_tfog (e.origin);
 	spawn_tdeath (e.origin, e);
@@ -166,7 +162,9 @@ void(entity e) tfld_enemy_setup =
 	
 	tmp_self = self;
 	self = e;
-	droptofloor ();
+	
+	walkmonster_start();
+	
 	self = tmp_self;
 };
 
@@ -179,7 +177,6 @@ void() tfld_spwan_dog =
 	tfld_random_position (dog, 50);
 	dog.classname = "monster_dog";
 	setmodel (dog, "progs/dog.mdl");
-	tfld_enemy_setup (dog);
 
 	dog.health = 25;
 	dog.th_stand = dog_stand1;
@@ -189,6 +186,8 @@ void() tfld_spwan_dog =
 	dog.th_die = dog_die;
 	dog.th_melee = dog_atta1;
 	dog.th_missile = dog_leap1;
+	
+	tfld_enemy_setup (dog);
 
 	total_monsters = total_monsters + 1;
 };
@@ -202,7 +201,6 @@ void() tfld_spwan_ogre =
 	tfld_random_position (ogre, 50);
 	ogre.classname = "monster_ogre";
 	setmodel (ogre, "progs/ogre.mdl");
-	tfld_enemy_setup (ogre);
 
 	ogre.health = 200;
 	ogre.th_stand = ogre_stand1;
@@ -212,6 +210,8 @@ void() tfld_spwan_ogre =
 	ogre.th_melee = ogre_melee;
 	ogre.th_missile = ogre_nail1;
 	ogre.th_pain = ogre_pain;
+	
+	tfld_enemy_setup (ogre);
 
 	total_monsters = total_monsters + 1;
 };
