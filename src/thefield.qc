@@ -25,6 +25,8 @@ void(float type, float num) tfld_spawn_enemies;
 
 void() tfld_precache =
 {
+	precache_file ("maps/thefield.bsp");
+	
 	precache_model ("progs/h_dog.mdl");
 	precache_model ("progs/dog.mdl");
 	precache_sound ("dog/dattack1.wav");
@@ -77,8 +79,11 @@ void() tfld_update =
 		tfld_player.health = -1;
 	}
 
-	if (time < 1)
-		centerprint(tfld_player, "You are on The Field. Fight!\n");
+	if (time < 3)
+		centerprint(tfld_player, "You are on The Field.\n");
+		
+	if (time > 3 && time < 6)
+		centerprint(tfld_player, "Survive as long as you can!\n");
 
 	if (time > 3 && tfld_wave_ctr == 0) {
 		tfld_spawn_enemies (TFLD_E_DOG, 4);
