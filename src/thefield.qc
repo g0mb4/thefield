@@ -144,6 +144,10 @@ void(entity e, float z) tfld_random_position =
 
 void(entity e) tfld_enemy_setup =
 {
+	local entity tmp_self;
+	
+	setsize (e, VEC_HULL2_MIN, VEC_HULL2_MAX);
+	
 	e.angles = vectoangles (tfld_player.origin - e.origin);
 	e.ideal_yaw = vectoyaw (tfld_player.origin - e.origin);
 	e.view_ofs = '0 0 25';
@@ -159,6 +163,11 @@ void(entity e) tfld_enemy_setup =
 	spawn_tfog (e.origin);
 	spawn_tdeath (e.origin, e);
 	e.teleport_time = time + 1;
+	
+	tmp_self = self;
+	self = e;
+	droptofloor ();
+	self = tmp_self;
 };
 
 void() tfld_spwan_dog =
@@ -167,10 +176,9 @@ void() tfld_spwan_dog =
 
 	dog = spawn ();
 
-	tfld_random_position (dog, 30);
+	tfld_random_position (dog, 50);
 	dog.classname = "monster_dog";
 	setmodel (dog, "progs/dog.mdl");
-	setsize (dog, '-32 -32 -24', '32 32 40');
 	tfld_enemy_setup (dog);
 
 	dog.health = 25;
@@ -191,10 +199,9 @@ void() tfld_spwan_ogre =
 
 	ogre = spawn ();
 
-	tfld_random_position (ogre, 35);
+	tfld_random_position (ogre, 50);
 	ogre.classname = "monster_ogre";
 	setmodel (ogre, "progs/ogre.mdl");
-	setsize (ogre, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	tfld_enemy_setup (ogre);
 
 	ogre.health = 200;
