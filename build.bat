@@ -13,3 +13,4 @@ qbsp thefield.map thefield.bsp
 light thefield.bsp
 vis thefield.bsp
 copy "thefield.bsp" "..\thefield\maps\thefield.bsp"
+cd ..
