@@ -2,6 +2,19 @@
 
 You are on The Filed. Survive as long as you can!
 
+## Quickstart
+
+Extract `thefield.zip` into your Quake directory. The file structure should look like this:
+```
+[id1]
+[thefield]
+...
+thefield.bat
+quake.exe
+...
+```
+Modify `thefield.bat` by replacing the `Quake_x64_steam.exe` with your Quake executable then run `thefield.bat`.
+
 ## What?
 
 This is a Quake mod inspired by [Devil Daggers](https://store.steampowered.com/app/422970/Devil_Daggers/).
@@ -31,7 +44,7 @@ make
 If the command succeded the `thefiled` directory will be present. Copy it next to your favourite Quake
 executable (where `id1` folder lives) and launch it with `-game thefield +map thefield` arguments.
 
-There is a `thefield.bat` as an example in the release, by default is uses the steam version.
+There is a `thefield.bat` as an example in the release, by default it uses the steam version.
 
 ## Anything else?
 
@@ -47,3 +60,9 @@ Manual](https://pages.cs.wisc.edu/~jeremyp/quake/quakec/quakec.pdf) for QuakeC.
 + quakewikis [modding page](https://quakewiki.org/wiki/Main_Page) for useful tips/examples.
 
 Tested with [quakespasm](https://github.com/sezero/quakespasm) and the [official rerelease version](https://store.steampowered.com/app/2310/Quake/).
+
+## TODOs
+
++ Fix double jump
++ Add more monsters
++ Add more events
