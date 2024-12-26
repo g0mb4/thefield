@@ -6,7 +6,10 @@
 
 // globals
 entity tfld_player;
-float tfld_wave_ctr;
+
+float tfld_wave_type;
+float tfld_wave_amount;
+float tfld_next_wave_time;
 
 float TFLD_E_NONE	= 0;
 float TFLD_E_DOG	= 1;
@@ -70,7 +73,9 @@ void() tfld_init =
 	// Fix PR_ExecuteProgram: NULL function
 	tfld_player.think = SUB_Null;
 
-	tfld_wave_ctr = 0;
+	tfld_wave_type = TFLD_E_DOG;
+	tfld_next_wave_time = 5;
+	tfld_wave_amount = 5;
 };
 
 void() tfld_update =
@@ -85,12 +90,19 @@ void() tfld_update =
 	if (time > 3 && time < 6)
 		centerprint(tfld_player, "Survive as long as you can!\n");
 
-	if (time > 3 && tfld_wave_ctr == 0) {
-		tfld_spawn_enemies (TFLD_E_DOG, 4);
-		tfld_wave_ctr = tfld_wave_ctr + 1;
-	} else if (time > 5 && tfld_wave_ctr == 1 ) {
-		tfld_spawn_enemies (TFLD_E_OGRE, 6);
-		tfld_wave_ctr = tfld_wave_ctr + 1;
+	if (time > tfld_next_wave_time) {
+		tfld_spawn_enemies (tfld_wave_type, tfld_wave_amount);
+	
+		if (tfld_wave_type == TFLD_E_DOG){
+			tfld_wave_type = TFLD_E_OGRE;
+		} else if (tfld_wave_type == TFLD_E_OGRE) {
+			tfld_wave_type = TFLD_E_DOG;
+		}
+		
+		if (time > 60 || time > 90 || time > 120)
+			tfld_wave_amount = tfld_wave_amount * 2;
+		
+		tfld_next_wave_time = tfld_next_wave_time + 3;
 	}
 };
 
