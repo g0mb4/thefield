@@ -76,7 +76,7 @@ void() tfld_init =
 void() tfld_update =
 {
 	if (tfld_player.origin_z < -16) {
-		tfld_player.health = -1;
+		tfld_player.deadflag = DEAD_DEAD;
 	}
 
 	if (time < 3)

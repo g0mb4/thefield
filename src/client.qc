@@ -578,35 +578,7 @@ void() CheckRules =
 
 void() PlayerDeathThink =
 {
-	local float forward;
-
-	if ((self.flags & FL_ONGROUND))
-	{
-		forward = vlen (self.velocity);
-		forward = forward - 20;
-		if (forward <= 0)
-			self.velocity = '0 0 0';
-		else
-			self.velocity = forward * normalize(self.velocity);
-	}
-
-	// wait for all buttons released
-	if (self.deadflag == DEAD_DEAD)
-	{
-		if (self.button2 || self.button1 || self.button0)
-			return;
-		self.deadflag = DEAD_RESPAWNABLE;
-		return;
-	}
-
-// wait for any button down
-	if (!self.button2 && !self.button1 && !self.button0)
-		return;
-
-	self.button0 = 0;
-	self.button1 = 0;
-	self.button2 = 0;
-	respawn();
+	NextLevel ();
 };
 
 
