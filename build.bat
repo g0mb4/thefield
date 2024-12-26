@@ -19,4 +19,5 @@ goto :EOF
 
 :error
 echo ---------- ERROR ----------
+cd ..
 exit /b 1
