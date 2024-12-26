@@ -59,7 +59,7 @@ Manual](https://pages.cs.wisc.edu/~jeremyp/quake/quakec/quakec.pdf) for QuakeC.
 
 + quakewikis [modding page](https://quakewiki.org/wiki/Main_Page) for useful tips/examples.
 
-Tested with [quakespasm](https://github.com/sezero/quakespasm) and the [official rerelease version](https://store.steampowered.com/app/2310/Quake/).
+Tested with [quakespasm](https://github.com/sezero/quakespasm) and with the [official rerelease](https://store.steampowered.com/app/2310/Quake/).
 
 ## TODOs
 
