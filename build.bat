@@ -9,7 +9,7 @@ copy "progs.dat" "..\thefield\progs.dat" || goto :error
 cd ..
 
 cd map
-qbsp thefield.map thefield.bsp || goto :error
+qbsp -cwd thefield.map thefield.bsp || goto :error
 light thefield.bsp || goto :error
 vis thefield.bsp || goto :error
 copy "thefield.bsp" "..\thefield\maps\thefield.bsp" || goto :error
