@@ -1,5 +1,5 @@
 QBSP := qbsp
-QBSPFALGS :=
+QBSPFALGS := -cwd
 LIGHT := light
 LIGHTFLAGS :=
 VIS := vis
@@ -13,7 +13,7 @@ BSPS := $(SRC:.map=.bsp)
 all: $(BSPS)
 
 %.bsp: %.map
-	$(QBSP) $(QBSPFLAGS) $< $@
+	$(QBSP) $(QBSPFALGS) $< $@
 	$(LIGHT) $(LIGHTFLAGS) $@
 	$(VIS) $(VISFLAGS) $@
 
